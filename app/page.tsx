@@ -1,18 +1,31 @@
 'use client'
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import { ArrowRight, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {useState} from "react";
-import PostList from "@/components/ui/PostList";
-import CreatePostForm from "@/components/ui/CreatePostForm";
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
+import PostList from "@/components/ui/PostList"
+import CreatePostForm from "@/components/ui/CreatePostForm"
 
 export default function HomePage() {
-    const [showPosts, setShowPosts] = useState(false)
-  return (
+  const [showPosts, setShowPosts] = useState(false)
+  const { isAuthenticated, loading } = useAuth()
+  const router = useRouter()
 
-      // <div>
-      //   <h2>Fetching Data with Next js and Tanstack</h2>
-      // </div>
+  // If authenticated, redirect to dashboard
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.push('/dashboard')
+    }
+  }, [isAuthenticated, loading, router])
+
+  // Only show the homepage content if not authenticated
+  if (loading || isAuthenticated) {
+    return null // Don't render anything while loading or if authenticated (redirecting)
+  }
+
+  return (
       <div className="min-h-screen bg-slate-50">
         <div className="max-w-4xl mx-auto py-12 px-4">
           <div className="text-center mb-8">
@@ -53,6 +66,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+
           <div className="mt-8 text-center">
             <Button
                 size="lg"
