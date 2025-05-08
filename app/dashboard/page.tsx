@@ -62,6 +62,14 @@ export default function DashboardPage() {
                         <Link href="/" className="font-bold text-xl">OAuth Demo App</Link>
                     </div>
                     <div className="flex items-center gap-4">
+                        <nav className="hidden md:flex items-center space-x-6 mr-4">
+                            <Link href="/dashboard" className="text-white hover:text-indigo-100">
+                                Dashboard
+                            </Link>
+                            <Link href="/users" className="text-white hover:text-indigo-100">
+                                Users
+                            </Link>
+                        </nav>
                         <div className="hidden md:flex items-center gap-2">
                             <div className="bg-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
                                 {user.name ? user.name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
@@ -75,14 +83,13 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </header>
-
             <main className="max-w-6xl mx-auto py-12 px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="mb-8"
-                >
+                    className="mb-8">
+
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
                             <h2 className="text-3xl font-bold text-slate-900">

@@ -98,7 +98,7 @@ export async function apiRequest<T = any>(
 
         // Handle error responses
         if (!response.ok) {
-            // Extract error message from the response if possible
+            // Extract an error message from the response if possible
             let errorMessage = 'Request failed';
 
             if (isJson) {
