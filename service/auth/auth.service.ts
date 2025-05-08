@@ -1,6 +1,3 @@
-// API service utility for making authenticated requests
-
-
 import {refreshAccessToken} from "@/lib/tokenRefresh";
 
 const API_URL = 'http://localhost:8000/api';
@@ -19,8 +16,10 @@ interface ApiOptions {
  * Make an API request to the backend
  * @param endpoint The API endpoint (without the base URL)
  * @param options Request options
+ * @param retryCount
  * @returns Promise with the response data
  */
+
 export async function apiRequest<T = any>(
     endpoint: string,
     options: ApiOptions = {},
@@ -83,7 +82,17 @@ export async function apiRequest<T = any>(
             const refreshed = await refreshAccessToken();
             if (refreshed) {
                 // Retry the request with the new token
-                return apiRequest(endpoint, options, retryCount + 1);
+                // Get the new token from localStorage
+                const newToken = localStorage.getItem('token');
+                // Create new options with updated headers to include the new token
+                const updatedOptions = {
+                    ...options,
+                    headers: {
+                        ...options.headers,
+                        Authorization: `Bearer ${newToken}`
+                    }
+                };
+                return apiRequest(endpoint, updatedOptions, retryCount + 1);
             }
         }
 
@@ -130,7 +139,17 @@ export async function apiRequest<T = any>(
             const refreshed = await refreshAccessToken();
             if (refreshed) {
                 // Retry the request with the new token
-                return apiRequest(endpoint, options, retryCount + 1);
+                // Get the new token from localStorage
+                const newToken = localStorage.getItem('token');
+                // Create new options with updated headers to include the new token
+                const updatedOptions = {
+                    ...options,
+                    headers: {
+                        ...options.headers,
+                        Authorization: `Bearer ${newToken}`
+                    }
+                };
+                return apiRequest(endpoint, updatedOptions, retryCount + 1);
             }
         }
 
