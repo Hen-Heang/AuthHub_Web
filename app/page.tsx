@@ -5,8 +5,6 @@ import { ArrowRight, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
-import PostList from "@/components/ui/PostList"
-import CreatePostForm from "@/components/ui/CreatePostForm"
 
 export default function HomePage() {
   const [showPosts, setShowPosts] = useState(false)
@@ -66,21 +64,6 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-
-          <div className="mt-8 text-center">
-            <Button
-                size="lg"
-                className="mb-8"
-                onClick={() => setShowPosts(!showPosts)}>
-              {showPosts ? "Hide Posts" : "Show Posts"}
-            </Button>
-            {showPosts && (
-                <div className="mt-6">
-                  <PostList />
-                </div>
-            )}
-          </div>
-          <CreatePostForm />
         </div>
       </div>
   )

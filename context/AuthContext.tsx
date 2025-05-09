@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    // Check if user is logged in on initial load
+    // Check if the user is logged in on an initial load
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {

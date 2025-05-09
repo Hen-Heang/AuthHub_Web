@@ -69,6 +69,9 @@ export default function DashboardPage() {
                             <Link href="/users" className="text-white hover:text-indigo-100">
                                 Users
                             </Link>
+                            <Link href="/profile" className="text-white hover:text-indigo-100">
+                                Profile
+                            </Link>
                         </nav>
                         <div className="hidden md:flex items-center gap-2">
                             <div className="bg-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">

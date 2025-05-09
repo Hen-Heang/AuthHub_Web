@@ -11,7 +11,7 @@ const apiClient = axios.create({
     },
 });
 
-// Add request interceptor to include JWT token in headers
+// Add a request interceptor to include JWT token in headers
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
@@ -33,7 +33,7 @@ apiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // If error is 401, and we haven't tried refreshing the token yet
+        // If the error is 401, and we haven't tried refreshing the token yet
         if (error.response?.status === 401 && !originalRequest._retry && typeof window !== 'undefined') {
             originalRequest._retry = true;
 
