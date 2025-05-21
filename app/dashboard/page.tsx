@@ -1,23 +1,29 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { LogOut, CheckCircle, Info, Shield, Loader2, RefreshCw, User, Mail, Calendar } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { motion } from "framer-motion"
-import { useAuth } from "@/context/AuthContext"
-import { useRouter } from "next/navigation"
+import {useEffect, useState} from "react"
+import {LogOut, CheckCircle, Info, Shield, Loader2, RefreshCw, Mail, Calendar} from "lucide-react"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardHeader, CardFooter} from "@/components/ui/card"
+import {Badge} from "@/components/ui/badge"
+import {motion} from "framer-motion"
+import {useAuth} from "@/context/AuthContext"
+import {useRouter} from "next/navigation"
 import Link from "next/link"
+import EditUserForm from "@/components/ui/EditUserForm";
+import {User} from "@/lib/hook/useUsers";
+
 
 export default function DashboardPage() {
-    const { user, logout, isAuthenticated, loading, fetchCurrentUser } = useAuth()
+    const {user, logout, isAuthenticated, loading, fetchCurrentUser} = useAuth()
     const [refreshing, setRefreshing] = useState(false)
     const router = useRouter()
     const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date())
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+    type LocalUser = User & { id: number };
     useEffect(() => {
-        // If not loading and not authenticated, redirect to sign-in
+        // If not loading and not authenticated, redirect to sign in
         if (!loading && !isAuthenticated) {
             router.push("/sign-in")
         }
@@ -35,13 +41,16 @@ export default function DashboardPage() {
             setRefreshing(false)
         }
     }
-
+    const handleEditUser = (user: LocalUser) => {
+        setSelectedUser(user);
+        setIsEditDialogOpen(true);
+    };
     // Show loading state while checking authentication
     if (loading) {
         return (
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="h-10 w-10 animate-spin text-indigo-600 mx-auto mb-4" />
+                    <Loader2 className="h-10 w-10 animate-spin text-indigo-600 mx-auto mb-4"/>
                     <h3 className="text-lg font-medium text-slate-800">Loading your dashboard...</h3>
                 </div>
             </div>
@@ -58,7 +67,7 @@ export default function DashboardPage() {
             <header className="bg-indigo-600 text-white sticky top-0 z-10 shadow-md">
                 <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Shield className="h-6 w-6" />
+                        <Shield className="h-6 w-6"/>
                         <Link href="/" className="font-bold text-xl">OAuth Demo App</Link>
                     </div>
                     <div className="flex items-center gap-4">
@@ -74,13 +83,14 @@ export default function DashboardPage() {
                             </Link>
                         </nav>
                         <div className="hidden md:flex items-center gap-2">
-                            <div className="bg-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
+                            <div
+                                className="bg-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
                                 {user.name ? user.name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
                             </div>
                             <span className="text-sm">{user.name || user.email}</span>
                         </div>
                         <Button className="text-white hover:bg-indigo-700" onClick={logout}>
-                            <LogOut className="h-4 w-4 mr-2" />
+                            <LogOut className="h-4 w-4 mr-2"/>
                             <span className="hidden sm:inline">Sign out</span>
                         </Button>
                     </div>
@@ -88,9 +98,9 @@ export default function DashboardPage() {
             </header>
             <main className="max-w-6xl mx-auto py-12 px-4">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.5}}
                     className="mb-8">
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -111,9 +121,9 @@ export default function DashboardPage() {
                             disabled={refreshing}
                             className="flex items-center gap-2">
                             {refreshing ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
+                                <Loader2 className="h-4 w-4 animate-spin"/>
                             ) : (
-                                <RefreshCw className="h-4 w-4" />
+                                <RefreshCw className="h-4 w-4"/>
                             )}
                             {refreshing ? 'Refreshing...' : 'Refresh Data'}
                         </Button>
@@ -122,9 +132,9 @@ export default function DashboardPage() {
 
                 <div className="grid md:grid-cols-2 gap-8">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.5, delay: 0.2}}
                     >
                         <Card className="shadow-md border-slate-200 h-full">
                             <CardHeader className="pb-2 flex flex-row items-center justify-between">
@@ -139,7 +149,7 @@ export default function DashboardPage() {
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-3 gap-4 items-center border-b border-slate-100 pb-4">
                                         <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                                            <User className="h-4 w-4 text-slate-400" />
+                                            <div className="h-4 w-4 text-slate-400"/>
                                             Name:
                                         </div>
                                         <div className="col-span-2 font-medium">{user.name || "Not provided"}</div>
@@ -147,7 +157,7 @@ export default function DashboardPage() {
 
                                     <div className="grid grid-cols-3 gap-4 items-center border-b border-slate-100 pb-4">
                                         <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                                            <Mail className="h-4 w-4 text-slate-400" />
+                                            <Mail className="h-4 w-4 text-slate-400"/>
                                             Email:
                                         </div>
                                         <div className="col-span-2">{user.email}</div>
@@ -155,7 +165,7 @@ export default function DashboardPage() {
 
                                     <div className="grid grid-cols-3 gap-4 items-center border-b border-slate-100 pb-4">
                                         <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                                            <Shield className="h-4 w-4 text-slate-400" />
+                                            <Shield className="h-4 w-4 text-slate-400"/>
                                             Provider:
                                         </div>
                                         <div className="col-span-2 flex items-center gap-2">
@@ -186,7 +196,7 @@ export default function DashboardPage() {
                                                     />
                                                 </svg>
                                             ) : (
-                                                <Shield className="h-4 w-4 text-slate-400" />
+                                                <Shield className="h-4 w-4 text-slate-400"/>
                                             )}
                                             {user.provider || "LOCAL"}
                                         </div>
@@ -197,12 +207,12 @@ export default function DashboardPage() {
                                         <div className="col-span-2 flex items-center gap-2">
                                             {user.emailVerified ? (
                                                 <>
-                                                    <CheckCircle className="h-5 w-5 text-green-500" />
+                                                    <CheckCircle className="h-5 w-5 text-green-500"/>
                                                     <span>Yes</span>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Info className="h-5 w-5 text-amber-500" />
+                                                    <Info className="h-5 w-5 text-amber-500"/>
                                                     <span>No</span>
                                                     <Button className="ml-2 text-xs">
                                                         Verify
@@ -214,17 +224,18 @@ export default function DashboardPage() {
                                 </div>
                             </CardContent>
                             <CardFooter className="flex justify-end pt-4 border-t border-slate-100">
-                                <Button variant="outline" size="sm">
+                                <Button variant="outline" size="sm" onClick={() => handleEditUser(user as LocalUser)}>
                                     Edit Profile
                                 </Button>
                             </CardFooter>
+                            <EditUserForm user={selectedUser} isOpen={isEditDialogOpen} onClose={()=> setIsEditDialogOpen(false)}/>
                         </Card>
                     </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.5, delay: 0.3}}
                     >
                         <Card className="shadow-md border-slate-200 h-full">
                             <CardHeader className="pb-2">
@@ -233,13 +244,14 @@ export default function DashboardPage() {
                             <CardContent>
                                 <div className="space-y-4 text-slate-700">
                                     <p>
-                                        This application demonstrates how to implement OAuth 2.0 authentication using a Spring Boot backend
+                                        This application demonstrates how to implement OAuth 2.0 authentication using a
+                                        Spring Boot backend
                                         and Next.js frontend. You&#39;re authenticated using our JWT implementation.
                                     </p>
 
                                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
                                         <h4 className="font-medium mb-2 flex items-center gap-2">
-                                            <Shield className="h-4 w-4 text-indigo-600" />
+                                            <Shield className="h-4 w-4 text-indigo-600"/>
                                             OAuth 2.0 Benefits
                                         </h4>
                                         <ul className="space-y-2 text-sm">
@@ -266,7 +278,7 @@ export default function DashboardPage() {
 
                                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
                                         <h4 className="font-medium mb-2 flex items-center gap-2">
-                                            <Calendar className="h-4 w-4 text-indigo-600" />
+                                            <Calendar className="h-4 w-4 text-indigo-600"/>
                                             Session Information
                                         </h4>
                                         <div className="space-y-2 text-sm">
@@ -297,9 +309,9 @@ export default function DashboardPage() {
 
                 {/* Activity Section */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.5, delay: 0.4}}
                     className="mt-8"
                 >
                     <Card className="shadow-md border-slate-200">
@@ -326,7 +338,7 @@ export default function DashboardPage() {
                 <div className="max-w-6xl mx-auto px-4">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <div className="flex items-center gap-2 mb-4 md:mb-0">
-                            <Shield className="h-5 w-5 text-indigo-400" />
+                            <Shield className="h-5 w-5 text-indigo-400"/>
                             <span className="font-semibold">OAuth Demo App</span>
                         </div>
                         <div className="text-sm text-slate-400">

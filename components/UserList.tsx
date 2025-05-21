@@ -1,4 +1,3 @@
-// components/ui/UserList.tsx
 "use client"
 
 import React, { useState } from 'react';
