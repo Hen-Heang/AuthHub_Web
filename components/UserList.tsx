@@ -138,10 +138,7 @@ const UserList = () => {
             <EditUserForm
                 user={selectedUser}
                 isOpen={isEditDialogOpen}
-                onClose={() => setIsEditDialogOpen(false)}
-            />
-
-             Delete User Dialog
+                onClose={() => setIsEditDialogOpen(false)}/>
             <DeleteUserDialog
                 user={selectedUser}
                 isOpen={isDeleteDialogOpen}

@@ -109,26 +109,34 @@ export default function SignInPage() {
                                         )}
                                     </div>
 
-                                    <div className="space-y-2">
+                                    <div className="space-y-2.5">
                                         <div className="flex items-center justify-between">
-                                            <Label htmlFor="password">Password</Label>
-                                            <Link href="/forgot-password" className="text-xs text-indigo-600 hover:text-indigo-800">
+                                            <Label htmlFor="password"
+                                                   className="text-sm font-medium text-slate-700">Password</Label>
+                                            <Link href="/forgot-password"
+                                                  className="text-xs text-indigo-600 hover:text-indigo-800 hover:underline transition-colors duration-200">
                                                 Forgot password?
                                             </Link>
                                         </div>
                                         <div className="relative">
-                                            <KeyRound className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                                            <KeyRound
+                                                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none"/>
                                             <Input
                                                 id="password"
                                                 type="password"
                                                 placeholder="••••••••"
-                                                className={`pl-10 ${formErrors.password ? 'border-red-300 focus-visible:ring-red-500' : ''}`}
+                                                className={`pl-10 h-11 border-slate-200 hover:border-slate-300 focus:border-indigo-500 transition-colors duration-200 ${
+                                                    formErrors.password ? 'border-red-300 focus-visible:ring-red-500 hover:border-red-400' : ''
+                                                }`}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                             />
                                         </div>
                                         {formErrors.password && (
-                                            <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>
+                                            <p className="text-red-500 text-xs mt-1.5 flex items-center">
+                                                <span className="mr-1.5">⚠</span>
+                                                {formErrors.password}
+                                            </p>
                                         )}
                                     </div>
 
