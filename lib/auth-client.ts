@@ -117,18 +117,29 @@ export async function  requestPasswordReset(email: string): Promise<{
 
 export async function validatePasswordResetToken(token: string): Promise<{
     success: boolean,
-    message: string
+    message: string,
+    data?: any
 }> {
     try {
         // Attempt to validate the password reset token
-        await apiRequest(`/auth/reset-password?token=${token}`, {
+        const response = await apiRequest(`/auth/reset-password?token=${token}`, {
             method: 'GET',
             includeAuth: false
         });
 
+        // Check if the response contains a valid field
+        if (response && response.data && typeof response.data.valid === 'boolean') {
+            return {
+                success: response.data.valid,
+                message: response.data.valid ? 'Password reset token is valid' : 'Password reset token is invalid or expired',
+                data: response.data
+            };
+        }
+
         return {
             success: true,
-            message: 'Password reset token is valid'
+            message: 'Password reset token is valid',
+            data: response
         };
     } catch (error: any) {
         return {
@@ -136,7 +147,6 @@ export async function validatePasswordResetToken(token: string): Promise<{
             message: `Password reset token validation failed: ${error.message}`
         };
     }
-
 }
 
 
