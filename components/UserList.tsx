@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { User as UserIcon, Mail, Shield, CheckCircle, AlertCircle, Loader2, Pencil, Trash } from 'lucide-react';
+import { Mail, Shield, CheckCircle, AlertCircle, Loader2, Pencil, Trash } from 'lucide-react';
 import { getInitials } from '@/lib/utils';
 import {Avatar, AvatarFallback, AvatarImage} from "@radix-ui/react-avatar";
 import EditUserForm from './ui/EditUserForm';
