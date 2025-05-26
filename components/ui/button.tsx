@@ -31,7 +31,7 @@ const buttonVariants: any = cva(
 )
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-    variant?: "outline" | "solid"; // Add the possible values for `variant`
+    variant?: "outline" | "solid" | "ghost"; // Add the possible values for `variant`
     size?: "default" | "sm" | "lg" | "icon"; // Add the possible values for `size`
     asChild?: boolean; // Add the `asChild` property
 }

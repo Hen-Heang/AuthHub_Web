@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const Avatar = () => {
-    return (
-        <div>
-            
-        </div>
-    );
-};
+type AvatarProps = {
+    children: React.ReactNode
+}
 
-export default Avatar;
+export default function Avatar({ children }: AvatarProps) {
+    return <div>{children}</div>
+}
